@@ -1,0 +1,38 @@
+using System;
+
+class Program
+{
+    delegate double MathOperation(double x, double y);
+    
+    static void Main()
+    {
+        try
+        {
+            Console.Write("Введите первое число: ");
+            double a = double.Parse(Console.ReadLine());
+            
+            Console.Write("Введите второе число: ");
+            double b = double.Parse(Console.ReadLine());
+
+            // Лямбда-выражение для вычисления: (a + b) * (a - b) / (a * b)
+            MathOperation calculate = (x, y) => 
+            {
+                if (x * y == 0)
+                    throw new DivideByZeroException("Деление на ноль невозможно");
+                
+                return (x + y) * (x - y) / (x * y);
+            };
+
+            double result = calculate(a, b);
+            Console.WriteLine($"Результат вычисления: {result:F4}");
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Ошибка: введено некорректное число");
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
+        }
+    }
+}
